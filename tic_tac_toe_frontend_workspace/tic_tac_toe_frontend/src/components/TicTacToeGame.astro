@@ -1,0 +1,274 @@
+---
+/**
+ * TicTacToeGame.astro
+ * Modern, minimal Astro component for a local two-player tic tac toe game.
+ * Features: interactive board, turn/status display, win/tie detection, responsive minimal design, and color theming.
+ */
+const CELL_EMPTY = '';
+const PLAYER_X = 'X';
+const PLAYER_O = 'O';
+const BOARD_SIZE = 3;
+
+function initBoard() {
+	return Array(BOARD_SIZE * BOARD_SIZE).fill(CELL_EMPTY);
+}
+
+function checkWinner(board) {
+	const lines = [
+		// Rows
+		[0, 1, 2], [3, 4, 5], [6, 7, 8],
+		// Columns
+		[0, 3, 6], [1, 4, 7], [2, 5, 8],
+		// Diagonals
+		[0, 4, 8], [2, 4, 6],
+	];
+	for (const [a, b, c] of lines) {
+		if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+			return board[a];
+		}
+	}
+	return null;
+}
+
+function isBoardFull(board) {
+	return board.every(cell => cell);
+}
+---
+
+<div class="tictactoe-container">
+	<nav class="navbar">
+		<span class="navbar-title">Tic Tac Toe</span>
+	</nav>
+	<div class="status-section">
+		<span id="game-status"></span>
+	</div>
+	<div class="board" id="tic-tac-toe-board"></div>
+	<div class="actions">
+		<button id="new-game-btn" class="primary" aria-label="Start New Game">New Game</button>
+	</div>
+</div>
+
+<style>
+	:root {
+		--primary: #3B82F6;
+		--secondary: #F59E42;
+		--accent: #10B981;
+	}
+
+	.tictactoe-container {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		background: var(--bg-color, #fff);
+	}
+
+	.navbar {
+		width: 100vw;
+		background: var(--primary);
+		padding: 0.75rem 0;
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+	}
+	.navbar-title {
+		font-weight: bold;
+		font-size: 1.5rem;
+		color: #fff;
+		letter-spacing: 0.04em;
+	}
+
+	.status-section {
+		font-size: 1.17rem;
+		font-weight: 500;
+		text-align: center;
+		margin-bottom: 1.2rem;
+		color: var(--primary);
+	}
+
+	.board {
+		display: grid;
+		grid-template-columns: repeat(3, 60px);
+		grid-template-rows: repeat(3, 60px);
+		gap: 0.7rem;
+		background-color: var(--secondary, #F59E42);
+		padding: 1.2rem;
+		border-radius: 16px;
+		box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+	}
+	.cell-btn {
+		width: 60px;
+		height: 60px;
+		font-size: 2.1rem;
+		font-family: inherit;
+		border-radius: 10px;
+		border: 2px solid var(--primary);
+		background: #fff;
+		color: var(--primary);
+		cursor: pointer;
+		transition: background 0.1s, color 0.1s, box-shadow 0.15s;
+		outline: none;
+		box-shadow: 0 1px 4px rgba(59, 130, 246, 0.04);
+	}
+	.cell-btn[disabled] {
+		cursor: not-allowed;
+		background: #f3f4f6;
+		color: #a1a1aa;
+	}
+
+	.actions {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+		margin-top: 1.6rem;
+		justify-content: center;
+	}
+
+	.primary {
+		background: var(--accent);
+		color: white;
+		font-size: 1rem;
+		padding: 0.6rem 1.3rem;
+		border: none;
+		border-radius: 100px;
+		font-weight: 600;
+		letter-spacing: 0.025em;
+		box-shadow: 0 4px 16px rgba(16,185,129,0.16);
+		cursor: pointer;
+		transition: background 0.18s, transform 0.13s;
+	}
+	.primary:active {
+		background: #059669;
+		transform: scale(0.96);
+	}
+
+	@media (max-width: 575px) {
+		.board {
+			grid-template-columns: repeat(3, 16vw);
+			grid-template-rows: repeat(3, 16vw);
+			padding: 3vw;
+		}
+		.cell-btn {
+			width: 16vw;
+			height: 16vw;
+			font-size: 8vw;
+		}
+		.actions { margin-top: 5vw; }
+	}
+</style>
+
+<script type="module">
+	const GAME_STORAGE_KEY = 'astro-tictactoe-v1';
+
+	let board = initBoard();
+	let currentPlayer = PLAYER_X;
+	let winner = null;
+	let isTie = false;
+	let gameOver = false;
+
+	const boardContainer = document.getElementById('tic-tac-toe-board');
+	const gameStatus = document.getElementById('game-status');
+	const newGameBtn = document.getElementById('new-game-btn');
+
+	// PUBLIC_INTERFACE
+	function renderBoard() {
+		boardContainer.innerHTML = '';
+		for (let i = 0; i < BOARD_SIZE * BOARD_SIZE; ++i) {
+			const btn = document.createElement('button');
+			btn.className = 'cell-btn';
+			btn.setAttribute('data-cell', i);
+			btn.textContent = board[i];
+			btn.disabled = Boolean(board[i]) || gameOver;
+			btn.ariaLabel = `Cell ${i+1} ${board[i] ? 'filled with ' + board[i] : 'empty'}`;
+			btn.onclick = () => handleMove(i);
+			boardContainer.appendChild(btn);
+		}
+	}
+
+	// PUBLIC_INTERFACE
+	function updateStatus() {
+		if (winner) {
+			gameStatus.textContent = `Player ${winner} wins! 🎉`;
+			gameStatus.style.color = 'var(--accent)';
+		} else if (isTie) {
+			gameStatus.textContent = "It's a tie!";
+			gameStatus.style.color = 'var(--secondary)';
+		} else {
+			gameStatus.textContent = `Your move: ${currentPlayer}`;
+			gameStatus.style.color = 'var(--primary)';
+		}
+	}
+
+	// PUBLIC_INTERFACE
+	function handleMove(idx) {
+		if (gameOver || board[idx]) return;
+		board[idx] = currentPlayer;
+		winner = checkWinner(board);
+		isTie = !winner && isBoardFull(board);
+		gameOver = Boolean(winner) || isTie;
+		if (!gameOver) {
+			currentPlayer = currentPlayer === PLAYER_X ? PLAYER_O : PLAYER_X;
+		}
+		renderBoard();
+		updateStatus();
+		saveGameState();
+	}
+
+	// PUBLIC_INTERFACE
+	function startNewGame() {
+		board = initBoard();
+		currentPlayer = PLAYER_X;
+		winner = null;
+		isTie = false;
+		gameOver = false;
+		renderBoard();
+		updateStatus();
+		saveGameState();
+	}
+
+	// PUBLIC_INTERFACE
+	function saveGameState() {
+		const state = {
+			board, currentPlayer, winner, isTie, gameOver
+		};
+		try {
+			localStorage.setItem(GAME_STORAGE_KEY, JSON.stringify(state));
+		} catch (e) {
+			// Ignore storage errors silently
+		}
+	}
+
+	// PUBLIC_INTERFACE
+	function loadGameState() {
+		const str = localStorage.getItem(GAME_STORAGE_KEY);
+		if (str) {
+			try {
+				const state = JSON.parse(str);
+				if (state && Array.isArray(state.board) && state.board.length === 9) {
+					board = state.board;
+					currentPlayer = state.currentPlayer;
+					winner = state.winner;
+					isTie = state.isTie;
+					gameOver = state.gameOver;
+				}
+			} catch {}
+		}
+	}
+
+	// PUBLIC_INTERFACE
+	function setup() {
+		// Load previous game if available (for fun)
+		loadGameState();
+		renderBoard();
+		updateStatus();
+		newGameBtn.onclick = startNewGame;
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', setup);
+	} else {
+		setup();
+	}
+</script>
