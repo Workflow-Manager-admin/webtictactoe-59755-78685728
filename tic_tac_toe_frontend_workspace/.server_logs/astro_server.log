@@ -1,0 +1,100 @@
+
+> astro@0.0.1 dev
+> astro dev --port 3000 --host 0.0.0.0
+
+▶ Astro collects anonymous usage data.
+  This information helps us improve Astro.
+  Run "astro telemetry disable" to opt-out.
+  https://astro.build/telemetry
+
+19:48:18 [types] Generated 1ms
+19:48:18 [content] Syncing content
+19:48:18 [content] Synced content
+
+ astro  v5.4.2 ready in 635 ms
+
+┃ Local    http://localhost:3000/
+┃ Network  http://172.17.0.2:3000/
+
+19:48:18 watching for file changes...
+
+ update  ▶ New version of Astro available: 5.10.1
+  Run npx @astrojs/upgrade to update
+
+19:48:19 Configuration file updated. Restarting...
+19:48:19 [vite] Re-optimizing dependencies because vite config has changed
+19:48:19 [content] Syncing content
+19:48:19 [content] Synced content
+19:48:19 [types] Generated 326ms
+19:48:19 [vite] Re-optimizing dependencies because vite config has changed
+19:48:25 Configuration file updated. Restarting...
+19:48:26 [vite] Re-optimizing dependencies because vite config has changed
+19:48:26 [content] Syncing content
+19:48:26 [content] Synced content
+19:48:26 [types] Generated 300ms
+19:48:26 [vite] Re-optimizing dependencies because vite config has changed
+19:48:32 Configuration file updated. Restarting...
+19:48:32 [vite] Re-optimizing dependencies because vite config has changed
+19:48:32 [content] Syncing content
+19:48:32 [content] Synced content
+19:48:32 [types] Generated 373ms
+19:48:32 [vite] Re-optimizing dependencies because vite config has changed
+19:48:39 Configuration file updated. Restarting...
+19:48:39 [vite] Re-optimizing dependencies because vite config has changed
+19:48:39 [content] Syncing content
+19:48:39 [content] Synced content
+19:48:39 [types] Generated 446ms
+19:48:39 [vite] Re-optimizing dependencies because vite config has changed
+19:48:45 Configuration file updated. Restarting...
+19:48:45 [vite] Re-optimizing dependencies because vite config has changed
+19:48:45 [content] Syncing content
+19:48:45 [content] Synced content
+19:48:45 [types] Generated 317ms
+19:48:45 [vite] Re-optimizing dependencies because vite config has changed
+19:48:52 Configuration file updated. Restarting...
+19:48:52 [vite] Re-optimizing dependencies because vite config has changed
+19:48:52 [content] Syncing content
+19:48:52 [content] Synced content
+19:48:52 [types] Generated 312ms
+19:48:52 [vite] Re-optimizing dependencies because vite config has changed
+19:48:58 Configuration file updated. Restarting...
+19:48:58 [vite] Re-optimizing dependencies because vite config has changed
+19:48:58 [content] Syncing content
+19:48:58 [content] Synced content
+19:48:58 [types] Generated 306ms
+19:48:58 [vite] Re-optimizing dependencies because vite config has changed
+19:49:05 Configuration file updated. Restarting...
+19:49:05 [vite] Re-optimizing dependencies because vite config has changed
+19:49:05 [content] Syncing content
+19:49:05 [content] Synced content
+19:49:05 [types] Generated 334ms
+19:49:05 [vite] Re-optimizing dependencies because vite config has changed
+19:49:11 Configuration file updated. Restarting...
+19:49:11 [vite] Re-optimizing dependencies because vite config has changed
+19:49:11 [content] Syncing content
+19:49:11 [content] Synced content
+19:49:11 [types] Generated 286ms
+19:49:11 [vite] Re-optimizing dependencies because vite config has changed
+19:49:18 Configuration file updated. Restarting...
+19:49:18 [vite] Re-optimizing dependencies because vite config has changed
+19:49:18 [content] Syncing content
+19:49:18 [content] Synced content
+19:49:18 [types] Generated 340ms
+19:49:18 [vite] Re-optimizing dependencies because vite config has changed
+19:49:24 Configuration file updated. Restarting...
+19:49:24 [vite] Re-optimizing dependencies because vite config has changed
+19:49:25 [content] Syncing content
+19:49:25 [content] Synced content
+19:49:25 [types] Generated 411ms
+19:49:25 [vite] Re-optimizing dependencies because vite config has changed
+19:49:31 Configuration file updated. Restarting...
+19:49:31 [vite] Re-optimizing dependencies because vite config has changed
+19:49:31 [content] Syncing content
+19:49:31 [content] Synced content
+19:49:31 [types] Generated 455ms
+19:49:31 [vite] Re-optimizing dependencies because vite config has changed
+19:49:34 [200] / 177ms
+19:49:35 [200] / 13ms
+19:51:24 [watch] /src/components/TicTacToeGame.astro?astro=&type=style&index=0&lang.css
+19:51:26 [200] / 66ms
+19:51:26 [200] / 19ms

@@ -161,6 +161,40 @@ function isBoardFull(board) {
 
 <script type="module">
 	const GAME_STORAGE_KEY = 'astro-tictactoe-v1';
+	
+	// Client-side constants
+	const CELL_EMPTY = '';
+	const PLAYER_X = 'X';
+	const PLAYER_O = 'O';
+	const BOARD_SIZE = 3;
+
+	// PUBLIC_INTERFACE
+	function initBoard() {
+		return Array(BOARD_SIZE * BOARD_SIZE).fill(CELL_EMPTY);
+	}
+
+	// PUBLIC_INTERFACE
+	function checkWinner(board) {
+		const lines = [
+			// Rows
+			[0, 1, 2], [3, 4, 5], [6, 7, 8],
+			// Columns
+			[0, 3, 6], [1, 4, 7], [2, 5, 8],
+			// Diagonals
+			[0, 4, 8], [2, 4, 6],
+		];
+		for (const [a, b, c] of lines) {
+			if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+				return board[a];
+			}
+		}
+		return null;
+	}
+
+	// PUBLIC_INTERFACE
+	function isBoardFull(board) {
+		return board.every(cell => cell);
+	}
 
 	let board = initBoard();
 	let currentPlayer = PLAYER_X;
